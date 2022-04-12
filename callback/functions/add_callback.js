@@ -5,6 +5,7 @@ exports.handler = function(context, event, callback) {
       .create({attributes: JSON.stringify({
           type: "callback",
           name: event.phone_number,
+          motif: event.motif
         }), workflowSid: context.WORKFLOW_SID})
       .then(task => console.log(task.sid))
       .then(() => {

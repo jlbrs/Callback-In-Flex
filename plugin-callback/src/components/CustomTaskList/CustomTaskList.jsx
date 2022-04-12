@@ -14,11 +14,13 @@ class CustomTaskList extends React.Component {
             <CustomTaskListComponentStyles>
             {task.attributes.type && task.attributes.type === "callback" && (
                 <>
-                    <h1>Callback request</h1>
-                    <h2>From:</h2>
+                    <h1>Demande de rappel</h1>
+                    <h2>Contact :</h2>
                     <p>{task.attributes.name}</p>
-                    <h2>Initiate call:</h2>
-                    <p><a onClick={(e) => this.props.clickToDial(task.attributes.name, task.sid)}><FontAwesomeIcon icon={faPhoneSquareAlt}/> call back</a></p>
+                    <h2>Motif :</h2>
+                    <p>{task.attributes.motif}</p>
+                    <h2>Appeler :</h2>
+                    <p><a onClick={(e) => this.props.clickToDial(task.attributes.name, task.sid)}><FontAwesomeIcon icon={faPhoneSquareAlt}/> rappeler</a></p>
                 </>
             )
             }
