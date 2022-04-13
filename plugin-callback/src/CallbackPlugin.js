@@ -33,7 +33,7 @@ export default class CallbackPlugin extends FlexPlugin {
 
     flex.Actions.addListener("afterAcceptTask", (payload) => {
       if(payload.task.attributes.type && payload.task.attributes.type === "callback") {
-        this.clickToDial(payload.task.attributes.name, payload.task.sid);
+        this.clickToDial(payload.task.attributes.phone_number, payload.task);
       }
     });
   }
@@ -53,16 +53,18 @@ export default class CallbackPlugin extends FlexPlugin {
     manager.store.addReducer(namespace, reducers);
   }
 
-  clickToDial(destinationNumber, oldtask) {
+  clickToDial(destinationNumber, oldTask) {
     let a = (payload) => {
       console.log('TASKAXXEPTED', payload);
       this.flex.Actions.removeListener("afterAcceptTask", a);
-      this.flex.Actions.invokeAction("CompleteTask", { sid: oldtask });
+      this.flex.Actions.invokeAction("CompleteTask", { sid: oldTask.sid });
     };
-    this.flex.Actions.invokeAction("AcceptTask", { sid: oldtask });
+    this.flex.Actions.invokeAction("AcceptTask", { sid: oldTask.sid });
     this.flex.Actions.addListener("afterAcceptTask", a);
     this.flex.Actions.invokeAction("StartOutboundCall", {
-      destination: destinationNumber
+      destination: destinationNumber,
+      callerId: oldTask.attributes.caller_id,
+      taskAttributes: oldTask.attributes
     });
   };
 
